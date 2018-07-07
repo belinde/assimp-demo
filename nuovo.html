@@ -34,27 +34,13 @@
 </nav>
 <div class="container-fluid mt-5">
     <div class="row">
-        <div class="col-2">
-            <div class="card">
-                <div class="card-header">Ricerca</div>
-                <div class="card-body" id="ricerca"></div>
-            </div>
+        <div class="col-lg-2" id="ricerca">
+            <!--<div class="card">-->
+            <!--<div class="card-header">Ricerca</div>-->
+            <!--<div class="card-body" id="ricerca"></div>-->
+            <!--</div>-->
         </div>
-        <div class="col-10">
-            <div class="card">
-                <div class="card-header">Risultati</div>
-                <table class="table">
-                    <thead>
-                    <tr id="tabRisHead">
-                        <th>Descrizione</th>
-                        <th>Tipologia di prodotto</th>
-                        <th>Tipologia di materiale</th>
-                    </tr>
-                    </thead>
-                    <tbody id="risultati"></tbody>
-                </table>
-            </div>
-        </div>
+        <div class="col-lg-10" id="risultati"></div>
     </div>
 
 </div>
@@ -90,14 +76,25 @@
         risTable.html('');
 
         risultati.map(function (item) {
-            var tr = $('<tr></tr>')
-                .append('<td>' + item.descrizione + '</td>')
-                .append('<td>' + item.prodotto + '</td>')
-                .append('<td>' + item.materiale.join('<br>') + '</td>');
-
+            var k = 0;
+            var cardBody = $('<div class="card-body"></div>');
             for (field in values) if (values.hasOwnProperty(field)) {
-                tr.append('<td>' + values[field][item[field]] + '</td>');
+                k++;
+                if (1 === (k % 5)) {
+                    var attribs = $('<div class="row"></div>');
+                    attribs.appendTo(cardBody);
+                }
+                attribs.append('<div class="col"><strong>' + labels[field] + '</strong><br>' + values[field][item[field]] + '</div>');
             }
+
+            var tr = $('<div class="card mb-3"></div>')
+                .append(
+                    '<div class="card-header">' +
+                    '<h5>' + item.descrizione + '</h5>' +
+                    '<small><strong>' + item.prodotto + ':</strong> ' + item.materiale.join(', ') + '</small>' +
+                    '</div>'
+                )
+                .append(cardBody);
 
             tr.appendTo(risTable);
         })
