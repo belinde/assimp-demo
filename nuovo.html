@@ -76,15 +76,9 @@
         risTable.html('');
 
         risultati.map(function (item) {
-            var k = 0;
-            var cardBody = $('<div class="card-body"></div>');
+            var attribs = $('<div class="row"></div>');
             for (field in values) if (values.hasOwnProperty(field)) {
-                k++;
-                if (1 === (k % 5)) {
-                    var attribs = $('<div class="row"></div>');
-                    attribs.appendTo(cardBody);
-                }
-                attribs.append('<div class="col"><strong>' + labels[field] + '</strong><br>' + values[field][item[field]] + '</div>');
+                attribs.append('<div class="col-3"><strong>' + labels[field] + '</strong><br>' + values[field][item[field]] + '</div>');
             }
 
             var tr = $('<div class="card mb-3"></div>')
@@ -94,7 +88,7 @@
                     '<small><strong>' + item.prodotto + ':</strong> ' + item.materiale.join(', ') + '</small>' +
                     '</div>'
                 )
-                .append(cardBody);
+                .append($('<div class="card-body"></div>').append(attribs));
 
             tr.appendTo(risTable);
         })
